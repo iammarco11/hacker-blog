@@ -1,13 +1,45 @@
----
-layout: default
----
 
-<ul>
-    {% for post in paginator.posts %}
-      <li>
-          <h2><a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">{{ post.title }}</a></h2>
-          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
-          <p>{{ post.content | strip_html | truncatewords:50 }}</p>
-      </li>
-    {% endfor %}
-</ul>
+<html>
+<head>
+<link rel="stylesheet" href="css/style.css">
+<title>Githubfinder</title>
+</head>
+<body>
+<form action="localhost"> 
+<input type="text" id="marco" name="Username" placeholder="enter the username"><br>
+</form>
+<p>Click the "Submit" button and the username will be searched.</p><br>
+<div id="username"></div><br>
+<img id="avatar" height="0" width="0"</img><br>
+
+<button type="button"onclick=search()>submit</button>
+<script>
+function search()
+{var login = document.getElementById("marco").value;
+var result = `query User($login: String!) {
+                user(login: $login) {
+                    login
+                    avatar                    
+                }
+            }`
+fetch('https://api.github.com/graphql', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'bearer  ',
+    },
+    body: JSON.stringify({result,variables: { login },})
+})
+    .then(r => r.json())
+    .then(data => {if(data.data.user==null){
+                document.getElementById("username").hidden = true;
+                document.getElementById("avatar").hidden = true;
+            }}
+    )
+    
+}
+</script>
+}
+</body>
+</html>
