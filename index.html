@@ -13,6 +13,7 @@
 <img id="avatar" height="0" width="0"</img><br>
 
 <button type="button"onclick=search()>submit</button>
+  
 <script>
 function search()
 {var login = document.getElementById("marco").value;
@@ -27,13 +28,14 @@ fetch('https://api.github.com/graphql', {
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'bearer 01ef2f88b8fe465f551b ',
+        'Authorization': 'bearer e5ca75433e02365a6fcbe7350d161a2961a31391 ',
     },
+  //open("https://iammarco11.github.io/hacker-blog/localhost?Username=marco"
     body: JSON.stringify({result,variables: { login },})
 })
     .then(r => r.json())
     .then(data => {if(data.data.user==null){
-                document.getElementById("username").hidden = true;
+                document.getElementById("marco").hidden = true;
                 document.getElementById("avatar").hidden = true;
             }}
     )
