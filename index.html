@@ -1,36 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-<body background="https://designshack.net/wp-content/uploads/tips-for-using-background-textures-in-web-design.jpg">
+<body background="https://hdqwalls.com/download/anonymus-hacker-2048x1152.jpg">
 <center>
 <h2>Search a Username</h2>
-
-
-<p><b>Enter the username you want to search</b></p>
-<input type="text" id="myText" placeholder="Enter the username">
-
-
-
-
-<button onclick="myFunction()">Search</button>
-
+<input type="text" id="marco" placeholder="Enter the username">
+<button onclick="searvh()">Search</button>
 <br><div id="Username"></div>
 <br><div id = "noUser"></div>
 <br><div id="Name"></div></br>
 <br><div id="Bio"></div></br>
-<br>
 <br><div id="Avatar_named"></div><div>
 <br><img id="Avatar" height="0" width="0"></img></br>
 <br><div id="Identicon_named"></div>
 <br><img id = "Identicon" height = "0" width = "0"></img></br>
 </center>
-
-
-
 <script>
         
-            function myFunction() {
-                var login = document.getElementById("myText").value;
+            function search() {
+                var login = document.getElementById("marco").value;
                 var query = `query get_details($login: String!) {
                                 user(login: $login) {
                                     login
@@ -44,7 +32,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
-                        'Authorization': 'bearer  e5ca75433e02365a6fcbe7350d161a2961a31391',//Instead of the '#' use the auth tokens for Github
+                        'Authorization': 'bearer  e5ca75433e02365a6fcbe7350d161a2961a31391',
                     },
                     body: JSON.stringify({
                         query,
@@ -79,7 +67,6 @@
                             document.getElementById("Identicon").src = "https://identicons.github.com/" + data.data.user.login +".png";
                             document.getElementById("Identicon").height = 200;
                             document.getElementById("Identicon").width = 300;
-                            
                             document.getElementById("noUser").hidden= true;
                             document.getElementById("Avatar_named").hidden = false;
                             document.getElementById("Identicon_named").hidden = false;
@@ -97,7 +84,5 @@
                     });
             }
         </script>
-
-
     </body>
 </html>
