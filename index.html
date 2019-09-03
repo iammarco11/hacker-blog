@@ -38,7 +38,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
-                        'Authorization': 'bearer  816d00739baa90487a856dc8d9137283c63b4459',
+                        'Authorization': 'bearer ',
                     },
                     body: JSON.stringify({
                         query,
@@ -47,7 +47,7 @@
                 })
                     .then(r => r.json())
                     .then(data => {
-                            if(data.data.user==null)
+                            if(data.user==null)
                             {
                                 document.getElementById("noUser").hidden= false;
                                 document.getElementById("noUser").innerHTML = "No user Exists";
@@ -64,13 +64,13 @@
                             {
                             document.getElementById("Avatar_named").innerHTML = "Avatar";
                             document.getElementById("Identicon_named").innerHTML = "Identicon";
-                            document.getElementById("Username").innerHTML = "Username: " + data.data.user.login;
-                            document.getElementById("Name").innerHTML = "Name: " + data.data.user.name;
-                            document.getElementById("Bio").innerHTML = "Bio: " + data.data.user.bio;
-                            document.getElementById("Avatar").src = data.data.user.avatarUrl;
+                            document.getElementById("Username").innerHTML = "Username: " + data.user.login;
+                            document.getElementById("Name").innerHTML = "Name: " + data.user.name;
+                            document.getElementById("Bio").innerHTML = "Bio: " + data.user.bio;
+                            document.getElementById("Avatar").src = data.user.avatarUrl;
                             document.getElementById("Avatar").height = 200;
                             document.getElementById("Avatar").width = 300;
-                            document.getElementById("Identicon").src = "https://identicons.github.com/" + data.data.user.login +".png";
+                            document.getElementById("Identicon").src = "https://identicons.github.com/" + data.user.login +".png";
                             document.getElementById("Identicon").height = 200;
                             document.getElementById("Identicon").width = 300;
                             document.getElementById("noUser").hidden= true;
