@@ -4,91 +4,59 @@
 <link rel="stylesheet" href="css/aah.css"/>
 <body background="https://hdqwalls.com/download/anonymus-hacker-2048x1152.jpg">
 <center>
-<div id="container">
-        <style>
-                #h2 {background-color:rgb(255, 255, 0);}
-        </style>
-<h2 id="h2">Search a Username</h2>
-<input type="text" id="marco" placeholder="Enter the username">
-<button onclick="search()">Search</button>
-<br><div id="Username"></div>
-<br><div id = "noUser"></div>
-<br><div id="Name"></div></br>
-<br><div id="Bio"></div></br>
-<br><div id="Avatar_named"></div><div>
-<br><img id="Avatar" height="0" width="0"></img></br>
-<br><div id="Identicon_named"></div>
-<br><img id = "Identicon" height = "0" width = "0"></img></br>
-</div>
-</center>
 <script>
-        
+var k = document.getElementById("marco").value
+
             function search() {
-                var login = document.getElementById("marco").value;
-                var query = `query get_details($login: String!) {
-                                user(login: $login) {
-                                    login
-                                    name
-                                    avatarUrl
-                                    bio
-                                }
-                            }`
-                fetch('https://api.github.com/graphql', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': 'bearer ',
-                    },
-                    body: JSON.stringify({
-                        query,
-                        variables: { login },
-                    })
-                })
-                    .then(r => r.json())
-                    .then(data => {
-                            if(data.user==null)
-                            {
-                                document.getElementById("noUser").hidden= false;
-                                document.getElementById("noUser").innerHTML = "No user Exists";
-                                document.getElementById("Avatar_named").hidden = true;
-                                document.getElementById("Identicon_named").hidden = true;
-                                document.getElementById("Username").hidden = true;
-                                document.getElementById("Name").hidden = true;
-                                document.getElementById("Bio").hidden= true;
-                                document.getElementById("Avatar").hidden = true;
-                                document.getElementById("Identicon").hidden = true;
-                            
-                            }
-                            else
-                            {
-                            document.getElementById("Avatar_named").innerHTML = "Avatar";
-                            document.getElementById("Identicon_named").innerHTML = "Identicon";
-                            document.getElementById("Username").innerHTML = "Username: " + data.user.login;
-                            document.getElementById("Name").innerHTML = "Name: " + data.user.name;
-                            document.getElementById("Bio").innerHTML = "Bio: " + data.user.bio;
-                            document.getElementById("Avatar").src = data.user.avatarUrl;
-                            document.getElementById("Avatar").height = 200;
-                            document.getElementById("Avatar").width = 300;
-                            document.getElementById("Identicon").src = "https://identicons.github.com/" + data.user.login +".png";
-                            document.getElementById("Identicon").height = 200;
-                            document.getElementById("Identicon").width = 300;
-                            document.getElementById("noUser").hidden= true;
-                            document.getElementById("Avatar_named").hidden = false;
-                            document.getElementById("Identicon_named").hidden = false;
-                            document.getElementById("Username").hidden = false;
-                            document.getElementById("Name").hidden = false;
-                            document.getElementById("Bio").hidden= false;
-                            document.getElementById("Avatar").hidden = false;
-                            document.getElementById("Identicon").hidden = false;   
-                    
-                            }
+              var login = document.getElementById("marco").value;
+              var l=`query SearchUser($userName: String!) {
+                       search(query: $userName, type: USER, first: 1) {
+                             edges {
+                                node {
+                               ... on User {
+                                         name
+                                         login
+                                         avatarUrl
+                                         bio
+                                         email
+                                       }
+                                     }
+                                   }
+                                 }
+                               }`
+fetch('https://api.github.com/graphql', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'bearer a05f63b6c1623afbcb34520201e334a1e41f4fd5'
+      }
+      body: JSON.stringify({
+      l,
+      variables:{login} })
+    })
+    .then(r => r.json())
+    .then(data => console.log('data returned:', data.bio));
+  }
+  </script>
+  <div id="container">
+          <style>
+                  #h1 {background-color:rgb(255, 255, 0);
+                    @import url(http://fonts.googleapis.com/css?family=Raleway);
+                    div.container{
+                    font-family: 'Raleway', sans-serif;
                     }
-                    )
-                    .catch(function(err){
-                        console.log('Error ', err);
-                    });
-            }
-        </script>
-    </body>
+  }
+          </style>
+  <h1 id="h1">Search a Github Username</h1>
+  <input type="text" id="marco" placeholder="Enter the username">
+  <br><div id="Username"></div>
+  <br><div id = "noUser"></div>
+  <br><div id="Name"></div></br>
+  <br><div id="Bio"></div></br>
+  <br><img id="Avatar" height="0" width="0"></img></br>
+  </div>
+  <button onclick=search()>Search</button>
+</center>
+</head>
 </html>
