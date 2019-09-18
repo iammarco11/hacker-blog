@@ -1,44 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="css/aah.css"/>
-<body background="https://hdqwalls.com/download/anonymus-hacker-2048x1152.jpg">
+  <body background="https://hdqwalls.com/download/anonymus-hacker-2048x1152.jpg">
 <center>
-<script>
-var k = document.getElementById("marco").value
-
-            function search() {
-              var login = document.getElementById("marco").value;
-              var l=`query SearchUser($userName: String!) {
-                       search(query: $userName, type: USER, first: 1) {
-                             edges {
-                                node {
-                               ... on User {
-                                         name
-                                         login
-                                         avatarUrl
-                                         bio
-                                         email
-                                       }
-                                     }
-                                   }
-                                 }
-                               }`
-fetch('https://api.github.com/graphql', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'bearer a05f63b6c1623afbcb34520201e334a1e41f4fd5'
-      }
-      body: JSON.stringify({
-      l,
-      variables:{login} })
-    })
-    .then(r => r.json())
-    .then(data => console.log('data returned:', data.bio));
-  }
-  </script>
   <div id="container">
           <style>
                   #h1 {background-color:rgb(255, 255, 0);
@@ -47,16 +11,73 @@ fetch('https://api.github.com/graphql', {
                     font-family: 'Raleway', sans-serif;
                     }
   }
+  #Name {background-color:rgb(255, 255, 0);
+    @import url(http://fonts.googleapis.com/css?family=Raleway);
+    div.container{
+    font-family: 'Raleway', sans-serif;
+    }
+}
+#Bio {background-color:rgb(255, 255, 0);
+  @import url(http://fonts.googleapis.com/css?family=Raleway);
+  div.container{
+  font-family: 'Raleway', sans-serif;
+  }
+}
+
           </style>
   <h1 id="h1">Search a Github Username</h1>
   <input type="text" id="marco" placeholder="Enter the username">
   <br><div id="Username"></div>
-  <br><div id = "noUser"></div>
   <br><div id="Name"></div></br>
   <br><div id="Bio"></div></br>
   <br><img id="Avatar" height="0" width="0"></img></br>
+<button id=search onclick="search()">Search</button>
   </div>
-  <button onclick=search()>Search</button>
 </center>
-</head>
+<script>
+
+          function search() {
+                var login = document.getElementById("marco").value;
+                var query = `query get_details($login: String!) {
+                                user(login: $login) {
+                                    login
+                                    name
+                                    avatarUrl
+                                    bio
+                                }
+                            }`
+                fetch('https://api.github.com/graphql', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': 'bearer 5eb21e2f7793d11f7d0d411d7c973bcd19c3cfac',
+                    },
+                    body: JSON.stringify({
+                        query,
+                        variables: { login },
+                    })
+                })
+                    .then(r => r.json())
+                    .then(data => {
+                            if(data.data.user!=null)
+
+                            {
+                            document.getElementById("Name").innerHTML = data.data.user.name;
+                            document.getElementById("Bio").innerHTML =  data.data.user.bio;
+                            document.getElementById("Avatar").src = data.data.user.avatarUrl;
+                            document.getElementById("Avatar").height = 300;
+                            document.getElementById("Avatar").width = 200;
+                                                        }
+                            else{
+                              alert("No user exists!!")
+                            }
+                    }).catch(function(err){
+                        console.log('Error ', err);
+                    });
+            }
+        </script>
+
+
+    </body>
 </html>
